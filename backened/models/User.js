@@ -6,7 +6,7 @@ const userSchema=new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        
+
     }, 
     lastName: {
         type: String,
@@ -24,7 +24,7 @@ const userSchema=new mongoose.Schema({
     },
     accountType: {
         type: String,
-        enum: ['Admin', 'Student', 'Instructor'],
+        enum: ['Student', 'Instructor'],
         required: true
     },
     token: {
