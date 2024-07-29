@@ -5,6 +5,7 @@ const database = require("./config/database");
 const cookieParser = require('cookie-parser');
 const cors = require('cors'); //backened entertain the front request
 const userRoutes=require("./routes/User")
+const todoRoutes=require("./routes/todoRoutes/Todo")
  
 const dotenv = require('dotenv');
 
@@ -28,6 +29,7 @@ app.use(
 
 //routes
 app.use(userRoutes);
+app.use(todoRoutes);
  
 
 

@@ -1,27 +1,31 @@
 const User = require("../models/User");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+// const validator = require('validator');
 require('dotenv').config();
 
 exports.signup=async(req,res)=>{
     try {
         const {
-            firstName, 
-            lastName, 
-            email,
-            password,
-            confirmPassword,
-            accountType, 
+            accountType,
+  firstName,
+  lastName,
+  email,
+  password,
+  confirmPassword, 
             
         } = req.body;
+        console.log("signup data",req.body)
+        console.log("before all filed required")
 
              //validata data
              if(
-                !firstName || 
-                !lastName || 
+                !firstName ||
+                !lastName ||
                 !email || 
-                !password || 
-                !confirmPassword 
+                !password ||
+                !confirmPassword ||
+                !accountType
                  
             ) {
                 return res.status(403).json({
@@ -29,6 +33,8 @@ exports.signup=async(req,res)=>{
                     message: 'All Fields are required',
                 });
             }
+            console.log("after all filed required")
+            
 
             if(password !== confirmPassword) {
                 return res.status(400).json({
@@ -36,6 +42,7 @@ exports.signup=async(req,res)=>{
                     message: 'Password and Confirm Password do not match. Please try again',
                 });
             }
+             
 
              //check if user already exist or not 
                 const existingUser = await User.findOne({ email });
@@ -52,7 +59,7 @@ exports.signup=async(req,res)=>{
                     firstName,
                     lastName,
                     email,
-                    // contactNumber,
+                    // // contactNumber,
                     password: hashedPassword,
                     accountType: accountType,
                     
@@ -79,6 +86,7 @@ exports.login = async (req, res) => {
     try {
          //get data from req body
          const {email, password} = req.body;
+         console.log("login data",req.body)
          //validation of data
          if(!email || !password) {
              //Return 400 Bad Request status code with error message
@@ -89,6 +97,7 @@ exports.login = async (req, res) => {
          }
          //check user exists or not
          const user = await User.findOne({email}) 
+         
          if(!user) {
              return res.status(401).json({
                  //Return 401 unauthorized status code with error message
