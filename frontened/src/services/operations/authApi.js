@@ -3,34 +3,32 @@ import { setLoading, setToken } from "../../slices/authSlice";
 import { apiConnector } from "../apiConnector";
 // import { endpoints } from "../api";
 import toast from "react-hot-toast";
- 
+
 // const { LOGIN_API ,SIGNUP_API} = endpoints;
-// SIGNUP_API, 
+// SIGNUP_API,
 //signup
 export function signup(
-    accountType,
+  accountType,
   firstName,
   lastName,
   email,
   password,
-  confirmPassword, 
-  
+  confirmPassword,
+
   navigate
 ) {
   return async (dispatch) => {
     const toastId = toast.loading("loading...");
     dispatch(setLoading(true));
     try {
-      console.log("before signup response")
-      const response = await apiConnector("POST", '/signup', {
-              accountType,
-                firstName,
-                lastName,
-                email,
-                password,
-                confirmPassword
-           
-               
+      console.log("before signup response");
+      const response = await apiConnector("POST", "/signup", {
+        accountType,
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
       });
       console.log("SIGNUP API RESPONSE............", response);
 
@@ -42,7 +40,6 @@ export function signup(
     } catch (error) {
       console.log("SIGNUP API ERROR............", error);
       toast.error("Signup Failed");
-       
     }
     dispatch(setLoading(false));
     toast.dismiss(toastId);
@@ -51,16 +48,15 @@ export function signup(
 
 //LOGIN
 
-export function login(email, password,  navigate) {
+export function login(email, password, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
     dispatch(setLoading(true));
 
     try {
-      const response = await apiConnector("POST", '/login', {
+      const response = await apiConnector("POST", "/login", {
         email,
         password,
-        
       });
       console.log("LOGIN API RESPONSE............", response);
 
@@ -73,20 +69,15 @@ export function login(email, password,  navigate) {
 
       localStorage.setItem("token", JSON.stringify(response.data.token));
 
-      const accountType=response.data.user.accountType
-      const userId=response.data.user._id
+      const accountType = response.data.user.accountType;
+      const userId = response.data.user._id;
       localStorage.setItem("userId", userId);
 
-     
-      if (  accountType ==="Instructor") {
-         navigate("/profileInstructor") 
-      }
-      else{
+      if (accountType === "Instructor") {
+        navigate("/profileInstructor");
+      } else {
         navigate("/profileStudent");
       }
-      
-       
-      
     } catch (error) {
       console.log("LOGIN API ERROR............", error);
       toast.error("Login Failed");

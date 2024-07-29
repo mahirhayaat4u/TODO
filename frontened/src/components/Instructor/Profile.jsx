@@ -5,7 +5,7 @@ const Profile = () => {
   return (
     <div> 
     <Link to="/createTodo">
-      create todo
+      create todo instructor
     </Link>
     
     </div>
